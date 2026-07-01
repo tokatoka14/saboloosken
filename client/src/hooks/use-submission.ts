@@ -95,7 +95,7 @@ function appendImageIfPresent(fd: FormData, key: string, value: string | undefin
   }
 }
 
-export const N8N_WEBHOOK_URL = "https://tok24.app.n8n.cloud/webhook-test/69083b0e-989b-4fa9-a091-0bd322884e1f";
+export const N8N_WEBHOOK_URL = "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
 
 export async function submitToN8N(payload: any): Promise<any> {
   try {
@@ -169,10 +169,10 @@ export function useSubmission() {
         throw new Error("Dealer email is missing");
       }
 
-      const supplierProfile = dealerName 
-        ? ((identificationCode.includes("ს/კ") || identificationCode.includes("შპს")) 
-            ? identificationCode 
-            : `შპს "${dealerName}" ს/კ ${identificationCode}`)
+      const supplierProfile = dealerName
+        ? ((identificationCode.includes("ს/კ") || identificationCode.includes("შპს"))
+          ? identificationCode
+          : `შპს "${dealerName}" ს/კ ${identificationCode}`)
         : undefined;
 
       // Build JSON payload conforming to submissionSchema
@@ -214,7 +214,7 @@ export function useSubmission() {
         signature: signatureBase64,
         digitalConsent: data.digitalConsent !== false,
         dealerEmail,
-        
+
         // Extra parameters
         branch_email: data.branch_email,
         whatsapp_number: data.whatsapp_number,

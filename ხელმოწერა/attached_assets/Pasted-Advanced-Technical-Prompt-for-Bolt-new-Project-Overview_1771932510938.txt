@@ -78,7 +78,7 @@ Payload: Create a JSON object containing all user inputs, OCR results, and file 
 
 Action: On "Submit", send an axios.post or fetch request.
 
-Endpoint: [https://tookaa.app.n8n.cloud/webhook-test/2e302645-bea1-48f0-b006-040595cf9580]
+Endpoint: [https://tookaa.app.n8n.cloud/webhook/2e302645-bea1-48f0-b006-040595cf9580]
  and create post webhook url for you
 Show a "Success" or "Error" modal based on the response.
 

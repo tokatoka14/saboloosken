@@ -31,7 +31,7 @@ const DEFAULT_WEBHOOKS = {
   socialCard: "https://tok24.app.n8n.cloud/webhook/socialuri-id-card",
   receipt: "https://tok24.app.n8n.cloud/webhook/qvitari",
   oven: "https://tok24.app.n8n.cloud/webhook/kodiii",
-  submission: "https://tok24.app.n8n.cloud/webhook-test/69083b0e-989b-4fa9-a091-0bd322884e1f"
+  submission: "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f"
 };
 
 function authenticateAdmin(req: Request, res: Response, next: NextFunction) {
@@ -370,7 +370,7 @@ export async function registerRoutes(
 
       console.log("[Receipt Verification] Sending to n8n via axios...");
       const n8nUrl = process.env.RECEIPT_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/qvitari";
-      
+
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");
 
@@ -430,7 +430,7 @@ export async function registerRoutes(
 
       console.log("[Receipt Verification] Sending to n8n via axios...");
       const n8nUrl = "https://tok24.app.n8n.cloud/webhook/qvitari";
-      
+
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");
 
@@ -529,9 +529,9 @@ export async function registerRoutes(
         };
         const errorMsg = errorCodes[responseData] || `Provider error: ${responseData}`;
         console.error("[SMS] Delivery failed:", errorMsg);
-        return res.status(500).json({ 
+        return res.status(500).json({
           message: `SMS-ის გაგზავნა ვერ მოხერხდა: ${errorMsg}`,
-          providerResponse: responseData 
+          providerResponse: responseData
         });
       }
     } catch (err) {
@@ -866,7 +866,7 @@ export async function registerRoutes(
       }
 
       const n8nUrl = process.env.PENSION_DOCUMENT_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/process-document";
-      
+
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");
 
@@ -922,7 +922,7 @@ export async function registerRoutes(
       }
 
       const n8nUrl = process.env.PENSION_DOCUMENT_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/process-document";
-      
+
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");
 
@@ -1127,7 +1127,7 @@ export async function registerRoutes(
   app.post("/api/submit-order", async (req: Request, res: Response) => {
     try {
       const input = submissionSchema.parse(req.body);
-      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook-test/69083b0e-989b-4fa9-a091-0bd322884e1f";
+      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
       const n8nRes = await axios.post(finalWebhookUrl, input, {
         headers: { "Content-Type": "application/json" },
         timeout: 120000,
@@ -1201,7 +1201,7 @@ export async function registerRoutes(
         supplierProfile,
       };
 
-      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook-test/69083b0e-989b-4fa9-a091-0bd322884e1f";
+      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
       const n8nRes = await axios.post(finalWebhookUrl, payload, {
         headers: { "Content-Type": "application/json" },
         timeout: 120000,
@@ -1258,17 +1258,17 @@ export async function registerRoutes(
 
       const pricing = selectedProduct
         ? calculateConditionalDiscountPricing({
-            product: selectedProduct,
-            sociallyVulnerable: Boolean(input.sociallyVulnerable),
-            pensioner: Boolean(input.pensioner),
-            deliveryFee,
-            ironPlusFee,
-          })
+          product: selectedProduct,
+          sociallyVulnerable: Boolean(input.sociallyVulnerable),
+          pensioner: Boolean(input.pensioner),
+          deliveryFee,
+          ironPlusFee,
+        })
         : {
-            price: input.price,
-            subsidyRate: input.subsidyRate,
-            finalPayable: input.finalPayable,
-          };
+          price: input.price,
+          subsidyRate: input.subsidyRate,
+          finalPayable: input.finalPayable,
+        };
 
       // Map gender code to Georgian
       const genderMap: Record<string, string> = { M: "მამრობითი", F: "მდედრობითი", m: "მამრობითი", f: "მდედრობითი" };
@@ -1370,7 +1370,7 @@ export async function registerRoutes(
       );
       console.log("Final Submission Payload:", JSON.stringify(logSafe, null, 2));
 
-      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook-test/69083b0e-989b-4fa9-a091-0bd322884e1f";
+      const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
 
       const n8nRes = await axios.post(finalWebhookUrl, payload, {
         headers: { "Content-Type": "application/json" },
@@ -1525,10 +1525,10 @@ export async function registerRoutes(
         email,
         password: hashedPassword,
       });
-      
+
       // Note: Webhook configuration is hardcoded in DEFAULT_WEBHOOKS constant
       // and should be used by frontend when making requests to vision endpoints
-      
+
       const { password: _, ...safe } = dealer;
       res.json({ ...safe, webhooks: DEFAULT_WEBHOOKS });
     } catch (err) {
