@@ -33,12 +33,12 @@ const smsCodes = new Map<string, { code: string; expires: number }>();
 
 // Default webhook configuration for new dealers/dashboards
 const DEFAULT_WEBHOOKS = {
-  identityCard: "https://tok24.app.n8n.cloud/webhook/process-id-card",
-  pensioner: "https://tok24.app.n8n.cloud/webhook/process-document",
-  socialCard: "https://tok24.app.n8n.cloud/webhook/socialuri-id-card",
-  receipt: "https://tok24.app.n8n.cloud/webhook/qvitari",
-  oven: "https://tok24.app.n8n.cloud/webhook/kodiii",
-  submission: "https://tok24.app.n8n.cloud/webhook/process-document"
+  identityCard: "https://n8n.srv1020074.hstgr.cloud/webhook/process-id-card",
+  pensioner: "https://n8n.srv1020074.hstgr.cloud/webhook/process-document",
+  socialCard: "https://n8n.srv1020074.hstgr.cloud/webhook/socialuri-id-card",
+  receipt: "https://n8n.srv1020074.hstgr.cloud/webhook/qvitari",
+  oven: "https://n8n.srv1020074.hstgr.cloud/webhook/kodiii",
+  submission: "https://n8n.srv1020074.hstgr.cloud/webhook/process-document"
 };
 
 function authenticateAdmin(req: Request, res: Response, next: NextFunction) {
@@ -137,7 +137,7 @@ async function markOvenCodeAsUsed(params: {
     throw new Error("კოდი ვერ დაემატა");
   }
 
-  const n8nUrl = process.env.STOVE_CODE_CHECK_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/kodiii";
+  const n8nUrl = process.env.STOVE_CODE_CHECK_WEBHOOK || "https://n8n.srv1020074.hstgr.cloud/webhook/kodiii";
   try {
     const n8nRes = await axios.post(
       n8nUrl,
@@ -175,7 +175,7 @@ async function markOvenCodeAsUsed(params: {
 
 // Helper function to execute webhook submission
 async function executeWebhookSubmission(payload: any) {
-  const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
+  const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://n8n.srv1020074.hstgr.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
   return await axios.post(
     finalWebhookUrl,
     payload,
@@ -193,7 +193,7 @@ async function cancelWebhookSubmission(originalPayload: any) {
     ...originalPayload,
     action: "cancel"
   };
-  const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
+  const finalWebhookUrl = process.env.SUBMIT_ALL_DATA_WEBHOOK || "https://n8n.srv1020074.hstgr.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
   try {
     await axios.post(finalWebhookUrl, cancelPayload, {
       headers: { "Content-Type": "application/json" },
@@ -494,7 +494,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
       }
 
       const n8nUrl =
-        "https://tok24.app.n8n.cloud/webhook/process-id-card";
+        "https://n8n.srv1020074.hstgr.cloud/webhook/process-id-card";
 
       const formData = new FormData();
 
@@ -591,7 +591,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
         });
       }
 
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/pasporti";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/pasporti";
 
       const formData = new FormData();
 
@@ -666,7 +666,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
         return res.status(400).json({ message: "Passport image file is required" });
       }
 
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/pasporti";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/pasporti";
       const formData = new FormData();
 
       formData.append("data", file.buffer, {
@@ -727,7 +727,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
       }
 
       console.log("[Receipt Verification] Sending to n8n via axios...");
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/qvitari";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/qvitari";
 
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");
@@ -817,7 +817,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
         return res.status(400).json({ message: "code_row is required for addcode" });
       }
 
-      const n8nUrl = process.env.STOVE_CODE_CHECK_WEBHOOK || "https://tok24.app.n8n.cloud/webhook/kodiii";
+      const n8nUrl = process.env.STOVE_CODE_CHECK_WEBHOOK || "https://n8n.srv1020074.hstgr.cloud/webhook/kodiii";
 
       const n8nRes = await axios.post(n8nUrl, {
         action,
@@ -857,7 +857,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
       }
 
       console.log("[Oven Verification] Sending to n8n (kodiii)...", code);
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/kodiii";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/kodiii";
 
       const n8nRes = await axios.post(n8nUrl, {
         action: "verify",
@@ -943,7 +943,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
         return res.status(400).json({ message: "Image is required" });
       }
 
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/socialuri-id-card";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/socialuri-id-card";
       const formData = new FormData();
       formData.append("data", imageFile.buffer, {
         filename: imageFile.originalname || "social-card.jpg",
@@ -1076,7 +1076,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
       console.error("[Social Card Verification] Error:", err);
       if (err.response?.status === 404) {
         console.error("[Social Card Verification] n8n Webhook is not Active:", {
-          url: "https://tok24.app.n8n.cloud/webhook/socialuri-id-card",
+          url: "https://n8n.srv1020074.hstgr.cloud/webhook/socialuri-id-card",
           status: err.response?.status,
           data: err.response?.data,
         });
@@ -1227,7 +1227,7 @@ export async function registerRoutes(httpServer: Server, app: express.Express) {
         return res.status(400).json({ message: "Image is required" });
       }
 
-      const n8nUrl = "https://tok24.app.n8n.cloud/webhook/process-document";
+      const n8nUrl = "https://n8n.srv1020074.hstgr.cloud/webhook/process-document";
 
       const base64String = image.includes(',') ? image.split(',')[1] : image;
       const buffer = Buffer.from(base64String, "base64");

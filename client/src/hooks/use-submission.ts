@@ -95,7 +95,7 @@ function appendImageIfPresent(fd: FormData, key: string, value: string | undefin
   }
 }
 
-export const N8N_WEBHOOK_URL = "https://tok24.app.n8n.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
+export const N8N_WEBHOOK_URL = "https://n8n.srv1020074.hstgr.cloud/webhook/69083b0e-989b-4fa9-a091-0bd322884e1f";
 
 export async function submitToN8N(payload: any): Promise<any> {
   try {

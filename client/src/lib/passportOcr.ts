@@ -1,7 +1,7 @@
 import { prepareFileForStorage } from "@/lib/imageUpload";
 
 export const PASSPORT_N8N_WEBHOOK_URL =
-  "https://tok24.app.n8n.cloud/webhook/pasporti";
+  "https://n8n.srv1020074.hstgr.cloud/webhook/pasporti";
 
 const OCR_TIMEOUT_MS = 120_000;
 
